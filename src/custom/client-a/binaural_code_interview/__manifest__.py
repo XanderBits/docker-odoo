@@ -7,10 +7,13 @@
     'website': 'https://www.binauraldev.com/home',
     'category': 'Uncategorized',
     'version': '0.1',
-    'depends': ['base'],
+    'depends': ['base', 'stock', 'mail'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
-        'views/views.xml',
+        'views/product_template_views.xml',
+        'views/stock_operation_tag_views.xml',
+        'views/menu.xml'
     ]
 }
 
