@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_category_operation_tag" model="ir.module.category">
+            <field name="name">Categoria: Etiquetas Operativas</field>
+            <field name="description">Etiqueta operativas de productos</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <record id="res_groups_privilege_operation_tag" model="res.groups.privilege">
+            <field name="name">Etiquetas Operativas</field>
+            <field name="category_id" ref="module_category_operation_tag"/>
+        </record>
+
+        <!-- Grupo para gestión de etiquetas operativas -->
+        <record id="group_operation_tag_manager" model="res.groups">
+            <field name="name">Gestión de Etiquetas operativas</field>
+            <field name="privilege_id" ref="res_groups_privilege_operation_tag"/>
+        </record>
+
+    </data>
+</odoo>
