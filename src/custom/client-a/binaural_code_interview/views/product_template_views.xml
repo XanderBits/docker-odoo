@@ -1,0 +1,38 @@
+<odoo>
+  <data>
+    <record id="view_product_template_operation_tag_kanban" model="ir.ui.view">
+      <field name="name">view.product_template.operation_tag.kanban</field>
+      <field name="model">product.template</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="stock_operation_ids">
+          <templates>
+            <t t-name="card">
+              <field name="name"/>
+              <field name="stock_operation_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_window_product_template_operation_tags">
+        <field name="name">Product Stock Operation Tag</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Clasifica tus productos con etiquetas operativas 
+                para optimizar tu inventario.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_product_template_operation_tag_view_kanban" model="ir.actions.act_window.view">
+      <field name="sequence" eval="1"/>
+      <field name="view_mode">kanban</field>
+      <field name="view_id" ref="view_product_template_operation_tag_kanban"/>
+      <field name="act_window_id" ref="act_window_product_template_operation_tags"/>
+    </record>
+
+  </data>
+</odoo>
