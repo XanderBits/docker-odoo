@@ -4,7 +4,7 @@
             <field name="name">view.stock.operation.tag.form</field>
             <field name="model">stock.operation.tag</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Inventario: Etiquetas Operativas">
                     <sheet>
                         <div class="oe_title">
                             <label for="name"/>
@@ -31,11 +31,11 @@
             <field name="name">view.stock.operation.tag.list</field>
             <field name="model">stock.operation.tag</field>
             <field name="arch" type="xml">
-                <list>
+                <list string="Inventario: Etiquetas Operativas">
                     <field name="name"/>
                     <field name="description"/>
                     <field name="operation_type"/>
-                    <field name="color"/>
+                    <field name="color" widget="color_picker"/>
                 </list>
             </field>
         </record>
