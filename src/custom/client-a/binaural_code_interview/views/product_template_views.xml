@@ -6,18 +6,20 @@
       <field name="arch" type="xml">
         <kanban default_group_by="stock_operation_ids">
           <templates>
-            <t t-name="card">
+            <t t-name="card" class="row g-0">
+              <main class="col-10 pe-2">
+                <field name="name" class="h2"/>
+                <span>
+                    Precio de venta: <field name="list_price"></field>
+                </span>
+                <span>
+                    Costo: <field name="standard_price"></field>
+                </span>
+                <field name="stock_operation_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+              </main>
               <aside class="col-2">
                 <field name="image_128" widget="image" options="{'img_class': 'o_image_64_contain mw-100'}" alt="Product"/>
               </aside>
-              <field name="name" class="h2"/>
-              <span>
-                  Precio de venta: <field name="list_price"></field>
-              </span>
-              <span>
-                  Costo: <field name="standard_price"></field>
-              </span>
-              <field name="stock_operation_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </t>
           </templates>
         </kanban>
