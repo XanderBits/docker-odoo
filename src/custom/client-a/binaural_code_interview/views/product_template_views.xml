@@ -23,6 +23,20 @@
         </kanban>
       </field>
     </record>
+    
+    <record id="view_product_template_operation_tag_list" model="ir.ui.view">
+      <field name="name">view.product_template.operation_tag.list</field>
+      <field name="model">product.template</field>
+      <field name="arch" type="xml">
+        <list multi_edit="1" editable="bottom">
+            <field name="name"/>
+            <field name="stock_operation_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            <field name="default_code"/>
+            <field name="list_price"/>
+            <field name="standard_price"/>
+        </list>
+      </field>
+    </record>
 
     <record id="view_template_property_inherit_form" model="ir.ui.view">
       <field name="model">product.template</field>
@@ -52,6 +66,13 @@
       <field name="sequence" eval="1"/>
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="view_product_template_operation_tag_kanban"/>
+      <field name="act_window_id" ref="act_window_product_template_operation_tags"/>
+    </record>
+
+    <record id="action_product_template_operation_tag_view_list" model="ir.actions.act_window.view">
+      <field name="sequence" eval="2"/>
+      <field name="view_mode">list</field>
+      <field name="view_id" ref="view_product_template_operation_tag_list"/>
       <field name="act_window_id" ref="act_window_product_template_operation_tags"/>
     </record>
 
