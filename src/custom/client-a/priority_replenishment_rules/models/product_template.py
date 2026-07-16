@@ -55,16 +55,21 @@ class ProductTemplate(models.Model):
         res_model_id = self.env.ref('product.model_product_template').id
 
         for product in product_ids:
-            note = self._get_replenishment_activity_note(product)
-            existing_activity = self.env['mail.activity'].search_count([
+            existing_activity = self.env['mail.activity'].search([
                 ('res_id', '=', product.id),
                 ('res_model_id', '=', res_model_id ),
                 ('activity_type_id', '=', activity_type_id)
             ], limit=1)
             
             if existing_activity:
+                _logger.info((
+                    f"NO SE CREÓ LA ACTIVIDAD: "
+                    f"YA EXISTE UNA PARA EL PRODUCTO '{product.name}': "
+                    f"{existing_activity}"
+                ))
                 continue
 
+            note = self._get_replenishment_activity_note(product)
             activity = product.sudo().activity_schedule(
                 'priority_replenishment_rules.mail_activity_product_replenishment',
                 note=note,
