@@ -1,10 +1,14 @@
 from odoo import models, fields
+from random import randint
 
 
 class StockOperationTag(models.Model):
     _name = 'stock.operation.tag'
     _inherit = ['mail.thread']
     _description = 'Etiqueta operativa de inventario'
+
+    def _get_default_color(self):
+        return randint(1, 11)
     
     OPERATION_TYPE_SELECTION = [
         ('picking','Picking'),
@@ -19,7 +23,7 @@ class StockOperationTag(models.Model):
     )
     color = fields.Integer(
         string='Color',
-        required=True,
+        default=_get_default_color,
         help='Color representativo'
     )
     description = fields.Text(
