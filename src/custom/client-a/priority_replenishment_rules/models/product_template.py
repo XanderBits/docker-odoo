@@ -45,7 +45,7 @@ class ProductTemplate(models.Model):
     def _cron_check_target_stock(self):
         product_ids = self.search([('needs_replenishment', '!=', False)])
         if not product_ids:
-            _logger.info("CHECK PRODUCT TARGET STOCK: No se encontraron productos")
+            _logger.info("CHECK PRODUCT TARGET STOCK CRON: No se encontraron productos")
             return
         
         activity_type_id = self.env.ref((
@@ -63,7 +63,8 @@ class ProductTemplate(models.Model):
             
             if existing_activity:
                 _logger.info((
-                    f"NO SE CREÓ LA ACTIVIDAD: "
+                    "CHECK PRODUCT TARGET STOCK CRON: "
+                    f"NO SE CREÓ LA ACTIVIDAD."
                     f"YA EXISTE UNA PARA EL PRODUCTO '{product.name}': "
                     f"{existing_activity}"
                 ))
@@ -78,7 +79,7 @@ class ProductTemplate(models.Model):
                     product.replenishment_priority
                 )
             )
-            _logger.info(f"CHECK PRODUCT TARGET STOCK: Actividad creada {activity}")
+            _logger.info(f"CHECK PRODUCT TARGET STOCK CRON: Actividad creada {activity}")
 
     def _get_replenishment_activity_note(self, product):
         priority = (
