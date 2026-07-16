@@ -9,6 +9,7 @@
     'version': '0.1',
     'depends': ['stock', 'mail'],
     'data': [
+        'data/mail_activity_type.xml',
         'data/ir_cron_data.xml',
         'views/product_template_views.xml',
         'views/menu.xml',

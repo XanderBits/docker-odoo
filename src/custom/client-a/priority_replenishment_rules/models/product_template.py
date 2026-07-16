@@ -47,20 +47,26 @@ class ProductTemplate(models.Model):
         if not product_ids:
             _logger.info("CHECK PRODUCT TARGET STOCK: No se encontraron productos")
             return
+        
+        activity_type_id = self.env.ref((
+                'priority_replenishment_rules'
+                '.mail_activity_product_replenishment'
+        )).id
+        res_model_id = self.env.ref('product.model_product_template').id
 
         for product in product_ids:
             note = self._get_replenishment_activity_note(product)
             existing_activity = self.env['mail.activity'].search_count([
                 ('res_id', '=', product.id),
-                ('res_model_id', '=', self.env.ref('product.model_product_template').id),
-                ('note', 'like', note)
+                ('res_model_id', '=', res_model_id ),
+                ('activity_type_id', '=', activity_type_id)
             ], limit=1)
             
             if existing_activity:
                 continue
 
             activity = product.sudo().activity_schedule(
-                'mail.mail_activity_data_warning',
+                'priority_replenishment_rules.mail_activity_product_replenishment',
                 note=note,
                 user_id=product.responsible_id.id or SUPERUSER_ID,
                 date_deadline=self._get_priority_date_to_overdue(
@@ -85,9 +91,9 @@ class ProductTemplate(models.Model):
         return note
 
     def _get_priority_date_to_overdue(self, product_priority):
-        priority_days = {'high': 1, 'medium': 4, 'low': 8, 'none': 3}
+        priority_days = {'high': 1, 'medium': 4, 'low': 8}
         date_deadline = (
             fields.Date.context_today(self) 
-            + relativedelta(days=priority_days.get(product_priority, 3))
+            + relativedelta(days=priority_days.get(product_priority, 4))
         )
         return date_deadline
