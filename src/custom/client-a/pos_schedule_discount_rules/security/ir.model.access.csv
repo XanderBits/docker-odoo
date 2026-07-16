@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_pos_discount_rule,access.user.pos.discount.rule,model_pos_discount_rule,base.group_user,1,0,0,0
+access_manager_pos_discount_rule,access.manager.pos.discount.rule,model_pos_discount_rule,point_of_sale.group_pos_manager,1,1,1,1
