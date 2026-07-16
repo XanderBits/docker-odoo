@@ -31,11 +31,11 @@
       <field name="model">product.template</field>
       <field name="arch" type="xml">
         <list multi_edit="1" editable="bottom">
-            <field name="name"/>
+            <field name="name" readonly="1"/>
             <field name="stock_operation_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-            <field name="default_code"/>
-            <field name="list_price"/>
-            <field name="standard_price"/>
+            <field name="default_code" readonly="1"/>
+            <field name="list_price" readonly="1"/>
+            <field name="standard_price" readonly="1"/>
         </list>
       </field>
     </record>

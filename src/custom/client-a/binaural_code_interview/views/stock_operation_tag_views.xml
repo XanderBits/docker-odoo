@@ -20,12 +20,12 @@
                             <group>
                                 <field name="operation_type"/>
                             </group>
-                            <notebook>
-                                <page string="Productos">
-                                    <field name="product_template_ids"/>
-                                </page>
-                            </notebook>
                         </group>
+                        <notebook>
+                            <page string="Productos">
+                                <field name="product_template_ids"/>
+                            </page>
+                        </notebook>
                     </sheet>
                     <chatter/>
                 </form>
