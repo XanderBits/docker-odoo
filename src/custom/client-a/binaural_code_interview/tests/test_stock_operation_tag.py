@@ -56,7 +56,7 @@ class TestStockOperationTag(TransactionCase):
         self.assertEqual(tag.name, "Tag de Prueba")
     
     def test_assign_tag_to_product(self):
-        _logger.info("*" * 20 + " TEST_ASSIGN_TAG_TO_PRODUCT " + "*" * 20)
+        _logger.info("*" * 20 + " TEST_ASSIGN_TAG_TO_PRODUCT " + "*" * 10)
         product = self.create_product()
         tag = self.create_tag()
 
