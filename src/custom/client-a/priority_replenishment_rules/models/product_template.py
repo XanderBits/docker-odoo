@@ -11,12 +11,13 @@ class ProductTemplate(models.Model):
         ('high', 'Alta'),
         ('medium', 'Media'),
         ('low', 'Baja'),
+        ('none', 'Sin prioridad'),
     ]
 
     replenishment_priority = fields.Selection(
         REPLENISHMENT_PRIORITY_SELECTION, 
         string='Prioridad de Reabastecimiento',
-        default='medium'
+        default='none'
     )
 
     target_stock = fields.Integer(
@@ -84,9 +85,9 @@ class ProductTemplate(models.Model):
         return note
 
     def _get_priority_date_to_overdue(self, product_priority):
-        priority_days = {'high': 1, 'medium': 4, 'low': 8}
+        priority_days = {'high': 1, 'medium': 4, 'low': 8, 'none': 3}
         date_deadline = (
             fields.Date.context_today(self) 
-            + relativedelta(days=priority_days.get(product_priority, 4))
+            + relativedelta(days=priority_days.get(product_priority, 3))
         )
         return date_deadline
