@@ -21,9 +21,9 @@
             <field name="arch" type="xml">
                 <list>
                     <field name="name"/>
-                    <field name="qty_available" />
-                    <field name="target_stock"/>
-                    <field name="needs_replenishment"/>
+                    <field name="qty_available" width="200"/>
+                    <field name="target_stock" width="200"/>
+                    <field name="needs_replenishment" width="200"/>
                     <field name="replenishment_priority"/>
                 </list>
             </field>
