@@ -77,8 +77,8 @@ class ProductTemplate(models.Model):
         note = (
             "REGLA DE REABASTECIMIENTO: Se necesita reabastecer "
             f"el producto {product.name} que tiene "
-            f"una prioridad '{priority}' "
-            f"Por favor, tomar las medidas necesarias."
+            f"una prioridad '{priority}'. "
+            "Por favor, tomar las medidas necesarias."
         )
 
         return note
