@@ -14,7 +14,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="color"/>
+                                <field name="color" widget="color_picker"/>
                                 <field name="description"/>
                             </group>
                             <group>
@@ -33,9 +33,9 @@
             <field name="arch" type="xml">
                 <list>
                 <field name="name"/>
-                <field name="color"/>
                 <field name="description"/>
                 <field name="operation_type"/>
+                <field name="color"/>
                 </list>
             </field>
         </record>
