@@ -9,7 +9,8 @@
     'version': '0.1',
     'depends': ['stock', 'mail'],
     'data': [
-        # 'data/ir_cron_data.xml',
-        # 'views/product_template_views.xml',
+        'data/ir_cron_data.xml',
+        'views/product_template_views.xml',
+        'views/menu.xml',
     ]
 }
