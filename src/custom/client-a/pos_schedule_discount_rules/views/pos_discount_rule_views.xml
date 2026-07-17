@@ -16,6 +16,7 @@
                         <group>
                             <group>
                                 <field name="hour_from" widget="float_time"/>
+                                <field name="active" invisible="1"/>
                             </group>
                             <group>
                                 <field name="hour_to" widget="float_time"/>
@@ -37,6 +38,7 @@
                     <field name="hour_from" widget="float_time" width="200"/>
                     <field name="hour_to" widget="float_time" width="200"/>
                     <field name="discount_percentage" width="200"/>
+                    <field name="active" invisible="1"/>
                 </list>
             </field>
         </record>
