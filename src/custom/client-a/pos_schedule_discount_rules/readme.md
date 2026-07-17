@@ -39,6 +39,8 @@ cobrado, ya que el pago ocurre en el frontend antes de la sincronización. En co
 importe cobrado no reflejaría el descuento y la orden quedaría descuadrada (`amount_paid`
 distinto de `amount_total`).
 
+Esto también trae como consecuencia que la suma de los totales de cada producto será distinta al total de la orden.
+
 Una implementación productiva requeriría extender también el **frontend**, para que el cajero vea
 los descuentos en tiempo real y los totales a pagar coincidan con los que muestra la orden una vez
 calculados impuestos y descuentos.
@@ -66,4 +68,27 @@ Cambio      -25,62 Bs.F   <- cambio negativo: el cliente pagó de más
 El cliente abonó el total previo a la regla, el descuento se aplicó al sincronizar la orden, y la
 diferencia queda como un cambio negativo que nadie devolvió. Es la consecuencia directa de aplicar
 el descuento después del cobro.
+
+La misma orden vista en el backend muestra el descuadre entre líneas y cabecera:
+
+![Suma de las líneas frente al total de la orden](static/description/descuadre_lineas_vs_total.png)
+
+En verde, las líneas con el descuento ya aplicado (204,96 + 2,05 = **207,01**). En rojo, la
+cabecera de la orden, que conserva el total sin descuento (**232,63**), porque `amount_total` y
+`amount_tax` no son campos calculados: el POS los computa en el navegador y el servidor únicamente
+los almacena.
+
+Recalcularlos en el `create` con `_compute_prices()` no es viable: ese método también reescribe
+`amount_paid` a partir de `payment_ids`, y los pagos todavía no existen en ese punto del flujo
+(`_process_order` los crea después). El resultado es `amount_paid = 0`, y el punto de venta
+rechaza el cobro al comprobar que `amount_total - amount_paid` no es cero:
+
+![El punto de venta rechaza el cobro](static/description/error_orden_no_pagada.png)
+
+Con esa llamada añadida, el flujo de venta queda inutilizable: ya no es posible ni cobrar la
+orden. Por eso se descartó.
+
+Se opta por dejar la cabecera sin recalcular: el descuadre queda acotado a un dato de
+visualización, mientras que aplicar el descuento antes del cobro —única solución real— exige la
+implementación en el frontend descrita arriba.
 
