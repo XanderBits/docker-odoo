@@ -11,7 +11,7 @@ class TestPosScheduleDiscount(TransactionCase):
     (orden fuera del rango horario, reglas solapadas)."""
 
     @classmethod
-    def setUpC(cls):
+    def setUp(cls):
         super().setUpClass()
     
     def test_order_within_schedule_gets_discount(self):
