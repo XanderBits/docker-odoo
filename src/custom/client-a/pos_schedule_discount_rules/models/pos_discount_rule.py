@@ -54,6 +54,9 @@ class PosDiscountRule(models.Model):
     @api.constrains('hour_from', 'hour_to')
     def _check_overlap(self):
         for rec in self:
+            # Existe una referencia visual de este constrains en 
+            # el readme, por favor leerlo si es necesario.
+            # (client-a/pos_schedule_discount_rules/readme.md)
             overlap_exists = self.with_context(active_test=False).search([
                 ('id', '!=', rec.id),
                 ('hour_to','>', rec.hour_from),
