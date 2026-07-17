@@ -13,6 +13,6 @@ class ResPartner(models.Model):
         string='Perfil fiscal',
         tracking=True,
         help=("El perfil fiscal determinará como se "
-            "aplicanran retenciones automáticas en facturas"
+            "aplicarán retenciones automáticas en facturas"
         )
     )
