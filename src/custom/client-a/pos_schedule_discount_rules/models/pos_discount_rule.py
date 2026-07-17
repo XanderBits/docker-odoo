@@ -1,33 +1,39 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class PosDiscountRule(models.Model):
     _name = 'pos.discount.rule'
+    _inherit= ['mail.thread']
     _order = 'hour_from'
     _description = 'Regla de descuento por horario en el punto de venta'
 
 
     name = fields.Char(
         string='Nombre',
-        required=True
+        required=True,
+        tracking=True
     )
     hour_from = fields.Float(
         string='Hora de inicio',
         default=0, 
         required=True,
-        index=True
+        index=True,
+        tracking=True
     )
     hour_to = fields.Float(
         string='Hora de fin', 
         default=0, 
-        required=True
+        required=True,
+        tracking=True
     )
     
     discount_percentage = fields.Float(
         string='Porcentaje de descuento', 
         digits=0, 
         default=0.0,
-        required=True
+        required=True,
+        tracking=True
     )
 
     _check_hour_from_hour_to = models.Constraint(
@@ -39,4 +45,21 @@ class PosDiscountRule(models.Model):
         'CHECK(discount_percentage>=0 AND discount_percentage<=100)',
         'El porcentaje de descuento debe ser un número entre 0 y 100'
     )
+
+
+    @api.constrains('hour_from', 'hour_to')
+    def _check_overlap(self):
+        for rec in self:
+            overlap_exists = self.search([
+                ('id', '!=', rec.id),
+                ('hour_to','>', rec.hour_from),
+                ('hour_from','<', rec.hour_to),
+            ], limit=1)
+
+            if overlap_exists:
+                raise ValidationError((
+                    "Error: Este rango de horas se solapa "
+                    "con un registro existente: "
+                    f"{overlap_exists.name}."
+                ))
 
