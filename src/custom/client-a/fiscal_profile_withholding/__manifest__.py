@@ -12,6 +12,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/withholding_rule_views.xml',
+        'views/account_move_views.xml',
+        'views/res_partner_views.xml',
         'views/menu.xml',
     ],
     'installable': True,
