@@ -17,6 +17,19 @@ Aplicar descuentos automáticos en el punto de venta según franjas horarias con
 * Prueba que valide órdenes con y sin descuento, incluyendo casos límite (ej. orden fuera del
   rango horario o reglas solapadas).
 
+## Lógica del constrains `_check_overlap`
+
+![Condiciones de solapamiento entre franjas horarias](static/description/solapamiento_de_horas.png)
+
+Dos franjas se solapan si y solo si se cumplen **ambas** condiciones a la vez. Al usar operadores
+estrictos, dos franjas contiguas (caso B: 14-16 y 16-18) no se consideran solapadas.
+
+Esa misma lógica se aplica al buscar la regla vigente
+(`_get_discount_rule_by_hour_range`): una venta a las 16:00 en punto pertenece a la franja 16-18,
+nunca a la 14-16.
+
+Nota: Esta misma lógica se tuvo en mente para crear el test (`test_overlapping_rules`) en (`test_pos_schedule_discount.py`)
+
 # Enfoque de la solución
 
 La implementación se realizó del lado del **backend**, que es lo interpretado a partir del enunciado:
