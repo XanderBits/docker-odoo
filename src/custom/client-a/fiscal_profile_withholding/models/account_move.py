@@ -7,7 +7,8 @@ class AccountMove(models.Model):
     withholding_amount = fields.Monetary(
         string='Monto de retención',
         currency_field='currency_id',
-        readonly=True
+        readonly=True,
+        tracking=True
     )
 
     def _post(self, soft=True):
