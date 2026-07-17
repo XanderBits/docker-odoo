@@ -11,5 +11,8 @@ class ResPartner(models.Model):
     fiscal_profile = fields.Selection(
         FISCAL_PROFILE_SELECTION,
         string='Perfil fiscal',
-        tracking=True
+        tracking=True,
+        help=("El perfil fiscal determinará como se "
+            "aplicanran retenciones automáticas en facturas"
+        )
     )
