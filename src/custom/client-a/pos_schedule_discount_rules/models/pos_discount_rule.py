@@ -73,12 +73,12 @@ class PosDiscountRule(models.Model):
                 ))
 
 
-    def get_discount_rule_by_hour_range(self, date):
+    def _get_discount_rule_by_hour_range(self, date):
         date = fields.Datetime.context_timestamp(self, date)
         hour = float(date.hour + (date.minute / 60))
         discount_rule = self.search([
                 ('hour_from', '<=', hour),
                 ('hour_to', '>', hour),
-        ])
+        ], limit=1)
         return discount_rule
 
