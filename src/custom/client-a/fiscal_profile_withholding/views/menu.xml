@@ -2,7 +2,7 @@
 <odoo>
     <menuitem id="menu_withholding_rule"
         name="Reglas de retención"
-        parent="account.menu_finance_configuration"
+        parent="account.account_invoicing_menu"
         action="fiscal_profile_withholding.withholding_rule_action"
-        sequence="50"/>
+        sequence="99"/>
 </odoo>
