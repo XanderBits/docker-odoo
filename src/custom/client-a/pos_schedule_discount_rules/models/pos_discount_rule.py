@@ -36,6 +36,10 @@ class PosDiscountRule(models.Model):
         tracking=True
     )
 
+    active = fields.Boolean(
+        default=True
+    )
+
     _check_hour_from_hour_to = models.Constraint(
         'CHECK(hour_from<hour_to)',
         'La hora de inicio debe ser menor a la hora de fin'
@@ -50,16 +54,31 @@ class PosDiscountRule(models.Model):
     @api.constrains('hour_from', 'hour_to')
     def _check_overlap(self):
         for rec in self:
-            overlap_exists = self.search([
+            overlap_exists = self.with_context(active_test=False).search([
                 ('id', '!=', rec.id),
                 ('hour_to','>', rec.hour_from),
                 ('hour_from','<', rec.hour_to),
             ], limit=1)
 
             if overlap_exists:
+                active = (
+                    ". (Este registro se encuentra archivado)." 
+                    if not overlap_exists.active 
+                    else "."
+                )
                 raise ValidationError((
                     "Error: Este rango de horas se solapa "
                     "con un registro existente: "
-                    f"{overlap_exists.name}."
+                    f"{overlap_exists.name}{active}"
                 ))
+
+
+    def get_discount_rule_by_hour_range(self, date):
+        date = fields.Datetime.context_timestamp(self, date)
+        hour = float(date.hour + (date.minute / 60))
+        discount_rule = self.search([
+                ('hour_from', '<=', hour),
+                ('hour_to', '>', hour),
+        ])
+        return discount_rule
 
