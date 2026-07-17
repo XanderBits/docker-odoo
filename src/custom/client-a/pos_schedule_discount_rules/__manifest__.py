@@ -11,8 +11,8 @@
     'depends': ['point_of_sale'],
     'data': [
         'security/ir.model.access.csv',
-        # 'views/pos_discount_rule_views.xml',
-        # 'views/menu.xml',
+        'views/pos_discount_rule_views.xml',
+        'views/menu.xml',
     ],
     'installable': True,
 }

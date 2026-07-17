@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+            <record id="view_pos_discount_rule_form" model="ir.ui.view">
+            <field name="name">view.pos.discount.rule.form</field>
+            <field name="model">pos.discount.rule</field>
+            <field name="arch" type="xml">
+                <form string="POS: Reglas de Descuento">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="hour_from" widget="float_time"/>
+                            </group>
+                            <group>
+                                <field name="hour_to" widget="float_time"/>
+                                <field name="discount_percentage"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_pos_discount_rule_list" model="ir.ui.view">
+            <field name="name">view.pos.discount.rule.list</field>
+            <field name="model">pos.discount.rule</field>
+            <field name="arch" type="xml">
+                <list string="POS: Reglas de Descuento">
+                    <field name="name" width="200"/>
+                    <field name="hour_from" widget="float_time" width="200"/>
+                    <field name="hour_to" widget="float_time" width="200"/>
+                    <field name="discount_percentage" width="200"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="pos_discount_rule_action" model="ir.actions.act_window">
+            <field name="name">POS: Reglas de Descuento</field>
+            <field name="res_model">pos.discount.rule</field>
+            <field name="view_id" ref="view_pos_discount_rule_list"/>
+            <field name="view_mode">list,form</field>
+        </record>
+
     </data>
 </odoo>
