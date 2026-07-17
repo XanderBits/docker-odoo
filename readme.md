@@ -1,3 +1,17 @@
+# DOCUMENTACIÓN DE LOS EJERCICIOS
+
+Cada uno de los ejercicios propuestos se implementó como un módulo independiente. En cada
+módulo se incluye un `README.md` con la documentación del ejercicio correspondiente: objetivo,
+criterios de aceptación, decisiones de diseño y pruebas.
+
+A continuación se listan los ejercicios, cada uno con un enlace directo a la documentación de
+su módulo:
+
+* **Inventario: Reglas de Reabastecimiento por Prioridad:** [`priority_replenishment_rules`](src/custom/client-a/priority_replenishment_rules/readme.md)
+* **Punto de Venta: Reglas de Descuento por Horario:** [`pos_schedule_discount_rules`](src/custom/client-a/pos_schedule_discount_rules/readme.md)
+* **Contabilidad: Retenciones Automáticas por Perfil Fiscal:** [`fiscal_profile_withholding`](src/custom/client-a/fiscal_profile_withholding/readme.md)
+* **Inventario: Clasificación Operativa de Productos:** [`operational_product_classification`](src/custom/client-a/operational_product_classification/readme.md)
+
 # Binaural Workspace — Multi-Instance Odoo Docker
 
 Entorno de desarrollo que permite levantar **múltiples instancias de Odoo** (diferentes versiones, diferentes proyectos) desde un único directorio, cada una con sus propios addons, base de datos y puerto. Todo se configura en un archivo `instances.json`.
