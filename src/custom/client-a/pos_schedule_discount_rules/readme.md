@@ -43,3 +43,27 @@ Una implementación productiva requeriría extender también el **frontend**, pa
 los descuentos en tiempo real y los totales a pagar coincidan con los que muestra la orden una vez
 calculados impuestos y descuentos.
 
+### Evidencia
+
+Ticket de una venta real con una regla del 20% activa:
+
+![Descuadre entre importe cobrado y total de la orden](static/description/ticket_descuadre.png)
+
+| Línea | Descuento manual | Regla | Aplicado |
+|---|---|---|---|
+| Office Chair | 10% | 20% | **20%** (la regla lo eleva) |
+| Whiteboard Pen | 30% | 20% | **30%** (se respeta el manual) |
+
+La política de aplicar el mayor descuento se cumple en ambos sentidos. Sin embargo, el ticket
+evidencia la limitación descrita:
+
+```
+Total       207,01 Bs.F   <- total de la orden, con el descuento ya aplicado
+Efectivo    232,63 Bs.F   <- importe realmente cobrado al cliente
+Cambio      -25,62 Bs.F   <- cambio negativo: el cliente pagó de más
+```
+
+El cliente abonó el total previo a la regla, el descuento se aplicó al sincronizar la orden, y la
+diferencia queda como un cambio negativo que nadie devolvió. Es la consecuencia directa de aplicar
+el descuento después del cobro.
+
