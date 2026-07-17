@@ -18,12 +18,15 @@ Aplicar retenciones automáticas en facturas según el perfil fiscal del cliente
 
 # Enfoque de la solución
 
-Se extiende `res.partner` con un campo `fiscal_profile` (`Selection`) y se crea el modelo
-`withholding.rule`, que asocia cada perfil fiscal a un porcentaje de retención.
+Se extiende `res.partner` con un campo [`fiscal_profile`](models/res_partner.py#L11)
+(`Selection`) y se crea el modelo [`withholding.rule`](models/withholding_rule.py), que asocia
+cada perfil fiscal a un porcentaje de retención.
 
-Al confirmar una factura de venta, se extiende `account.move._post()` para calcular la
-retención (`base imponible x porcentaje`) y guardarla en el campo `withholding_amount` de la
-factura. La base utilizada es `amount_untaxed` (base imponible, sin impuestos).
+Al confirmar una factura de venta, se extiende
+[`account.move._post()`](models/account_move.py#L14) para calcular la retención
+(`base imponible x porcentaje`) y guardarla en el campo
+[`withholding_amount`](models/account_move.py#L7) de la factura. La base utilizada es
+`amount_untaxed` (base imponible, sin impuestos).
 
 ## PERFIL FISCAL EN EL CLIENTE
 
@@ -76,8 +79,9 @@ Accesibles desde el menú de Contabilidad → Configuración → Facturación �
 * **Base de cálculo `amount_untaxed`**: coherente con la mecánica de retención de ISLR
   venezolana, que retiene sobre la base imponible sin incluir el IVA.
 
-* **Regla única por perfil (`UNIQUE(fiscal_profile)`)**: se impide crear más de una regla de
-  retención para el mismo perfil fiscal, evitando ambigüedad al buscar la regla aplicable.
+* **Regla única por perfil ([`UNIQUE(fiscal_profile)`](models/withholding_rule.py#L46))**: se
+  impide crear más de una regla de retención para el mismo perfil fiscal, evitando ambigüedad
+  al buscar la regla aplicable.
 
 # Casos límite
 
@@ -88,11 +92,14 @@ La retención se calcula en `0` (sin retención) cuando:
 
 # Pruebas
 
-* `test_withholding_applied_agent_profile`: factura de un cliente con perfil y regla; se
-  verifica que `withholding_amount == base x porcentaje`.
-* `test_no_withholding_without_profile`: cliente sin perfil fiscal; retención 0.
-* `test_no_withholding_without_rule`: cliente con perfil pero sin regla asociada; retención 0.
-* `test_check_withholding_percentage`: el `CHECK` del porcentaje (0-100) rechaza valores
-  fuera de rango (`CheckViolation`).
-* `test_unique_fiscal_profile`: el `UNIQUE(fiscal_profile)` impide reglas duplicadas por
-  perfil (`UniqueViolation`).
+* [`test_withholding_applied_agent_profile`](tests/test_fiscal_profile_withholding.py#L44):
+  factura de un cliente con perfil y regla; se verifica que
+  `withholding_amount == base x porcentaje`.
+* [`test_no_withholding_without_profile`](tests/test_fiscal_profile_withholding.py#L57):
+  cliente sin perfil fiscal; retención 0.
+* [`test_no_withholding_without_rule`](tests/test_fiscal_profile_withholding.py#L66): cliente
+  con perfil pero sin regla asociada; retención 0.
+* [`test_check_withholding_percentage`](tests/test_fiscal_profile_withholding.py#L75): el
+  `CHECK` del porcentaje (0-100) rechaza valores fuera de rango (`CheckViolation`).
+* [`test_unique_fiscal_profile`](tests/test_fiscal_profile_withholding.py#L90): el
+  `UNIQUE(fiscal_profile)` impide reglas duplicadas por perfil (`UniqueViolation`).

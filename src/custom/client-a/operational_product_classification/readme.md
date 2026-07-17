@@ -21,8 +21,9 @@ almacenamiento y despacho.
 
 # Enfoque de la solución
 
-Se crea el modelo `stock.operation.tag` (etiqueta operativa) y se extiende
-`product.template` con un campo *many2many* hacia dicho modelo. La misma tabla relación
+Se crea el modelo [`stock.operation.tag`](models/stock_operation_tag.py) (etiqueta operativa)
+y se extiende `product.template` con un [campo *many2many*](models/product_template.py#L7)
+hacia dicho modelo. La misma tabla relación
 (`product_template_stock_operation_tag_rel`) se declara en ambos lados, por lo que la
 relación es única y bidireccional.
 
@@ -65,19 +66,19 @@ productos sin abrir el formulario completo (acción rápida).
 
 # Decisiones de diseño
 
-* **Valores de `operation_type`**: se usa un `Selection` con `picking`, `storage` y
-  `dispatch`, que son los tres verbos que el propio enunciado nombra en su objetivo
-  ("picking, almacenamiento y despacho"). 
+* **Valores de [`operation_type`](models/stock_operation_tag.py#L33)**: se usa un `Selection`
+  con `picking`, `storage` y `dispatch`, que son los tres verbos que el propio enunciado
+  nombra en su objetivo ("picking, almacenamiento y despacho"). 
 
-* **`color` como `Integer` con default aleatorio**: se replica el patrón de `project.tags`
+* **[`color`](models/stock_operation_tag.py#L24) como `Integer` con default aleatorio**: se replica el patrón de `project.tags`
   (`randint(1, 11)`), de modo que cada etiqueta nace con un color distinto de la paleta
   estándar de Odoo y se integra con el `widget` de color de las vistas.
 
   https://github.com/odoo/odoo/blob/d584beef4ca1f5e63b930eeb415d8c9039c76c15/addons/project/models/project_tags.py#L16-L20
 
-* **Seguridad**: se define un grupo propio de gestión de etiquetas operativas (categoría +
-  privilegio + grupo) y las reglas de acceso correspondientes: lectura para el usuario
-  interno y CRUD completo para el grupo de gestión.
+* **Seguridad**: se define un [grupo propio de gestión](security/security.xml#L16) de
+  etiquetas operativas (categoría + privilegio + grupo) y las reglas de acceso
+  correspondientes: lectura para el usuario interno y CRUD completo para el grupo de gestión.
 
   ![Grupo de gestión de etiquetas operativas en la configuración de usuarios](static/description/grupo-usuarios-etiquetas-operativas.png)
 
@@ -85,9 +86,11 @@ productos sin abrir el formulario completo (acción rápida).
 
 Cubren los tres puntos del criterio de pruebas:
 
-* Creación de una etiqueta y verificación de sus campos.
-* Asignación de una etiqueta a un producto y verificación de la relación *many2many* en
-  ambos sentidos.
-* Agrupación (`_read_group`) por el *many2many*, verificando que un producto con varias
-  etiquetas se cuenta en varios grupos (la duplicación que alimenta la kanban).
+* [`test_create_stock_operation_tag`](tests/test_stock_operation_tag.py#L53): creación de una
+  etiqueta y verificación de sus campos.
+* [`test_assign_tag_to_product`](tests/test_stock_operation_tag.py#L58): asignación de una
+  etiqueta a un producto y verificación de la relación *many2many* en ambos sentidos.
+* [`test_verify_group_by_kanban`](tests/test_stock_operation_tag.py#L70): agrupación
+  (`_read_group`) por el *many2many*, verificando que un producto con varias etiquetas se
+  cuenta en varios grupos (la duplicación que alimenta la kanban).
 

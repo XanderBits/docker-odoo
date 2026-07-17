@@ -17,7 +17,7 @@ Aplicar descuentos automáticos en el punto de venta según franjas horarias con
 * Prueba que valide órdenes con y sin descuento, incluyendo casos límite (ej. orden fuera del
   rango horario o reglas solapadas).
 
-## Lógica del constrains `_check_overlap`
+## Lógica del constrains [`_check_overlap`](models/pos_discount_rule.py#L55)
 
 ![Condiciones de solapamiento entre franjas horarias](static/description/solapamiento_de_horas.png)
 
@@ -25,10 +25,11 @@ Dos franjas se solapan si y solo si se cumplen **ambas** condiciones a la vez. A
 estrictos, dos franjas contiguas (caso B: 14-16 y 16-18) no se consideran solapadas.
 
 Esa misma lógica se aplica al buscar la regla vigente
-(`_get_discount_rule_by_hour_range`): una venta a las 16:00 en punto pertenece a la franja 16-18,
-nunca a la 14-16.
+([`_get_discount_rule_by_hour_range`](models/pos_discount_rule.py#L79)): una venta a las 16:00
+en punto pertenece a la franja 16-18, nunca a la 14-16.
 
-Nota: Esta misma lógica se tuvo en mente para crear el test (`test_overlapping_rules`) en (`test_pos_schedule_discount.py`)
+Nota: esta misma lógica se tuvo en mente para crear el test
+[`test_overlapping_rules`](tests/test_pos_schedule_discount.py#L170).
 
 # Enfoque de la solución
 
@@ -91,7 +92,7 @@ cabecera de la orden, que conserva el total sin descuento (**232,63**), porque `
 `amount_tax` no son campos calculados: el POS los computa en el navegador y el servidor únicamente
 los almacena.
 
-Recalcularlos en el `create` con `_compute_prices()` no es viable: ese método también reescribe
+Recalcularlos en el [`create`](models/pos_order.py#L11) con `_compute_prices()` no es viable: ese método también reescribe
 `amount_paid` a partir de `payment_ids`, y los pagos todavía no existen en ese punto del flujo
 (`_process_order` los crea después). El resultado es `amount_paid = 0`, y el punto de venta
 rechaza el cobro al comprobar que `amount_total - amount_paid` no es cero:
