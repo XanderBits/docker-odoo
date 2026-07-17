@@ -32,6 +32,10 @@ Sobre `product.template` se añaden:
 * Una **vista de lista** con edición múltiple (`multi_edit`) que permite asignar o remover
   etiquetas a varios productos sin abrir el formulario completo (acción rápida).
 
+## MENÚ
+
+![Menú de etiquetas operativas en Inventario](static/description/menu-etiquetas-operativas.png)
+
 ## VISTA FORMULARIO: ETIQUETAS OPERATIVAS (stock.operation.tag)
 
 ![Formulario de una etiqueta operativa con su lista de productos](static/description/vista-form-etiquetas-operativas.png)
@@ -66,12 +70,16 @@ productos sin abrir el formulario completo (acción rápida).
   ("picking, almacenamiento y despacho"). 
 
 * **`color` como `Integer` con default aleatorio**: se replica el patrón de `project.tags`
-  (`randint(1, 11)`) , de modo que cada etiqueta nace con un color distinto de la paleta
+  (`randint(1, 11)`), de modo que cada etiqueta nace con un color distinto de la paleta
   estándar de Odoo y se integra con el `widget` de color de las vistas.
+
+  https://github.com/odoo/odoo/blob/d584beef4ca1f5e63b930eeb415d8c9039c76c15/addons/project/models/project_tags.py#L16-L20
 
 * **Seguridad**: se define un grupo propio de gestión de etiquetas operativas (categoría +
   privilegio + grupo) y las reglas de acceso correspondientes: lectura para el usuario
   interno y CRUD completo para el grupo de gestión.
+
+  ![Grupo de gestión de etiquetas operativas en la configuración de usuarios](static/description/grupo-usuarios-etiquetas-operativas.png)
 
 # Pruebas
 
